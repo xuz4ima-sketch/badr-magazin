@@ -761,8 +761,10 @@ function fillContacts() {
   // Карта по строке адреса, без API-ключа. Когда появится улица и дом,
   // точнее будет вставить готовый embed из «Поделиться → Встроить» в Картах.
   const query = encodeURIComponent(STORE_CONFIG.address);
-  document.getElementById('contact-map').src = `https://www.google.com/maps?q=${query}&output=embed`;
-  document.getElementById('map-link').href = `https://www.google.com/maps/search/?api=1&query=${query}`;
+  const map = document.getElementById('contact-map');
+  const mapLink = document.getElementById('map-link');
+  if (map) map.src = `https://www.google.com/maps?q=${query}&output=embed`;
+  if (mapLink) mapLink.href = `https://www.google.com/maps/search/?api=1&query=${query}`;
 }
 
 /* Мобильное меню */
