@@ -742,6 +742,15 @@ function fillContacts() {
     link.href = STORE_CONFIG.instagram;
   });
 
+  document.querySelectorAll('[data-wildberries]').forEach((link) => {
+    const url = STORE_CONFIG.wildberries;
+    if (!url || url === '#') {
+      link.hidden = true;
+      return;
+    }
+    link.href = url;
+  });
+
   const phoneLink = document.getElementById('contact-phone');
   phoneLink.href = `tel:+${STORE_CONFIG.phone}`;
   phoneLink.textContent = STORE_CONFIG.phoneDisplay;

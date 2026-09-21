@@ -440,6 +440,15 @@ a {
   animation: pulse 2.4s ease-out infinite;
 }
 
+.hero__slogan {
+  margin: 0 0 0.6rem;
+  font-family: var(--font-book);
+  font-style: italic;
+  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.3rem);
+  line-height: 1.35;
+  color: var(--teal-dark);
+}
+
 .hero__line {
   font-family: var(--font-book);
   font-weight: 600;
@@ -672,6 +681,7 @@ a {
 
 /* Появление первого экрана, по одному блоку. */
 .hero__badge,
+.hero__slogan,
 .hero__line,
 .hero__sub,
 .hero__actions,
@@ -681,6 +691,7 @@ a {
 }
 
 .hero__badge { animation-delay: 0.05s; }
+.hero__slogan { animation-delay: 0.1s; }
 .hero__line { animation-delay: 0.14s; }
 .hero__sub { animation-delay: 0.26s; }
 .hero__actions { animation-delay: 0.38s; }
@@ -2175,6 +2186,7 @@ a.contacts__value:hover {
   }
 
   .hero__badge,
+  .hero__slogan,
   .hero__line,
   .hero__sub,
   .hero__actions,

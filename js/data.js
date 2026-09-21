@@ -25,9 +25,10 @@ const STORE_CONFIG = {
 
   telegram: 'https://t.me/BADRMAGAZIN',
   instagram: 'https://www.instagram.com/badr.magazin/',
+  wildberries: '#', // TODO: вставить ссылку на страницу магазина на Wildberries
 
   address: 'г. Хасавюрт, ул. Гамидова, 175, Т/Ц «Грэйс», 2-й этаж (напротив «Арбата»)',
-  workingHours: 'Ежедневно, 09:00 – 19:00', // TODO: уточнить
+  workingHours: 'Со вторника по воскресенье, 09:00 – 19:00 (понедельник — выходной)',
 
   currency: '₽'
 };
