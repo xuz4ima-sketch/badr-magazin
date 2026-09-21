@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://xuz4ima-sketch.github.io/badr-magazin/sitemap.xml

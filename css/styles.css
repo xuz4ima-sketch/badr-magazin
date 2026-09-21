@@ -1305,6 +1305,93 @@ a.contacts__value:hover {
   color: inherit;
 }
 
+/* Страницы книг для поиска (собирает tools/build-pages.mjs) --------------- */
+
+.pagehead__back {
+  margin-left: auto;
+}
+
+.bookpage__crumbs {
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  color: var(--text-soft);
+  margin-bottom: 1.75rem;
+}
+
+.bookpage__crumbs a {
+  color: var(--teal-dark);
+}
+
+.bookpage__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: start;
+  max-width: 900px;
+}
+
+.bookpage__cover {
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  object-fit: cover;
+  background: var(--paper-cool);
+  border-bottom: 2px solid var(--teal);
+}
+
+.bookpage__title {
+  font-family: var(--font-book);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  line-height: 1.2;
+  color: var(--ink);
+  margin: 0 0 0.5rem;
+}
+
+.bookpage__price {
+  display: block;
+  margin: 0 0 1rem;
+}
+
+.bookpage__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.bookpage__note {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  margin: 1.25rem 0 0;
+}
+
+.bookpage__related {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+}
+
+.bookpage__list {
+  padding-left: 1.2rem;
+  line-height: 1.9;
+}
+
+.bookpage__list a {
+  color: var(--teal-dark);
+}
+
+@media (max-width: 620px) {
+  .bookpage__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bookpage__cover {
+    width: min(200px, 60%);
+  }
+
+  .bookpage__actions .btn {
+    width: 100%;
+  }
+}
+
 /* Cart: кнопка в шапке, счётчик и шаговый переключатель --------------------
    Состав корзины хранится в localStorage, поэтому переживает перезагрузку. */
 

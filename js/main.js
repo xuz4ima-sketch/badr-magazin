@@ -864,3 +864,8 @@ renderBooks();
 renderCart();
 fillHeroCount();
 fillContacts();
+
+/* Со страницы книги ведёт ссылка index.html?book=<id> — сразу открываем
+   её карточку, чтобы можно было положить книгу в корзину. */
+const linkedBook = new URLSearchParams(window.location.search).get('book');
+if (linkedBook && bookById(linkedBook)) openBook(linkedBook);
