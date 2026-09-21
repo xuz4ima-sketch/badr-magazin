@@ -51,6 +51,10 @@ const checkoutDeliveryInputs = Array.from(
 
 let activeCategory = 'all';
 let activePublisher = 'all';
+let activeQuery = '';
+let activePage = 1;
+const PAGE_SIZE = 20;
+const catalogPager = document.getElementById('catalog-pager');
 const cart = new Map();
 
 function escapeHtml(value) {
@@ -160,11 +164,48 @@ function renderFilters() {
   ).join('');
 }
 
+function normalize(text) {
+  return String(text || '').toLowerCase().replace(/ё/g, 'е');
+}
+
+function matchesQuery(book) {
+  if (!activeQuery) return true;
+  const haystack = normalize(`${book.title} ${book.author || ''} ${book.description}`);
+  return activeQuery.split(/\s+/).every((word) => haystack.includes(word));
+}
+
+function renderPager(pageCount) {
+  catalogPager.hidden = pageCount < 2;
+  if (pageCount < 2) {
+    catalogPager.innerHTML = '';
+    return;
+  }
+
+  const pages = [];
+  for (let page = 1; page <= pageCount; page += 1) {
+    pages.push(
+      `<button type="button" class="filter" data-page="${page}" aria-label="Страница ${page}"${
+        page === activePage ? ' aria-pressed="true" aria-current="page"' : ' aria-pressed="false"'
+      }>${page}</button>`
+    );
+  }
+
+  catalogPager.innerHTML =
+    `<button type="button" class="filter" data-page="${activePage - 1}" aria-label="Предыдущая страница"${
+      activePage === 1 ? ' disabled' : ''
+    }>←</button>` +
+    pages.join('') +
+    `<button type="button" class="filter" data-page="${activePage + 1}" aria-label="Следующая страница"${
+      activePage === pageCount ? ' disabled' : ''
+    }>→</button>`;
+}
+
 function renderBooks() {
   const visible = BOOKS.filter(
     (book) =>
       (activeCategory === 'all' || book.category === activeCategory) &&
-      (activePublisher === 'all' || book.publisher === activePublisher)
+      (activePublisher === 'all' || book.publisher === activePublisher) &&
+      matchesQuery(book)
   );
 
   catalogCount.textContent =
@@ -172,13 +213,19 @@ function renderBooks() {
       ? ''
       : `${visible.length} ${plural(visible.length, ['книга', 'книги', 'книг'])}`;
 
+  const pageCount = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
+  activePage = Math.min(activePage, pageCount);
+  renderPager(pageCount);
+
   if (visible.length === 0) {
-    catalogGrid.innerHTML =
-      '<p class="shelf__empty">В этом разделе пока пусто. Напишите нам — подскажем, что есть в наличии.</p>';
+    catalogGrid.innerHTML = activeQuery
+      ? '<p class="shelf__empty">По вашему запросу ничего не нашлось. Напишите нам — подскажем, есть ли книга в наличии.</p>'
+      : '<p class="shelf__empty">В этом разделе пока пусто. Напишите нам — подскажем, что есть в наличии.</p>';
     return;
   }
 
   catalogGrid.innerHTML = visible
+    .slice((activePage - 1) * PAGE_SIZE, activePage * PAGE_SIZE)
     .map(
       (book) => `
       <li class="book">
@@ -233,12 +280,21 @@ function bindFilterBar(bar, key, onPick) {
     if (!button) return;
     const picked = button.dataset[key];
     onPick(picked);
+    activePage = 1;
     bar.querySelectorAll('.filter').forEach((item) => {
       item.setAttribute('aria-pressed', String(item.dataset[key] === picked));
     });
     renderBooks();
   });
 }
+
+catalogPager.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-page]');
+  if (!button || button.disabled) return;
+  activePage = Number(button.dataset.page);
+  renderBooks();
+  document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' });
+});
 
 bindFilterBar(filterBar, 'category', (picked) => {
   activeCategory = picked;
@@ -273,16 +329,20 @@ function openBook(id) {
   sheetCover.alt = `Обложка книги «${book.title}»`;
   sheetKind.textContent = categoryLabel(book.category);
   sheetTitle.textContent = book.title;
-  sheetAuthor.textContent = book.author;
-  sheetAbout.textContent = book.about;
+  sheetAuthor.textContent = book.author || '';
+  sheetAuthor.hidden = !book.author;
+  sheetAbout.textContent = book.about || book.description;
   sheetPrice.textContent = formatPrice(book.price);
 
   sheetSpecs.innerHTML = [
-    specMarkup('Издательство', publisherLabel(book.publisher)),
-    specMarkup('Переплёт', book.binding),
-    specMarkup('Год издания', String(book.year)),
-    specMarkup('Страниц', String(book.pages))
-  ].join('');
+    ['Издательство', publisherLabel(book.publisher)],
+    ['Переплёт', book.binding],
+    ['Год издания', book.year],
+    ['Страниц', book.pages]
+  ]
+    .filter(([, value]) => value)
+    .map(([label, value]) => specMarkup(label, String(value)))
+    .join('');
 
   sheetCart.dataset.id = book.id;
   sheetCart.innerHTML = cartControlMarkup(book);
@@ -712,6 +772,77 @@ nav.addEventListener('click', (event) => {
     nav.dataset.open = 'false';
   }
 });
+
+/* Поиск в шапке: строка выезжает из кнопки справа налево и фильтрует
+   каталог на лету, вместе с выбранным разделом и издательством. */
+const search = document.getElementById('search');
+const searchToggle = document.getElementById('search-toggle');
+const searchInput = document.getElementById('search-input');
+let searchScrolled = false;
+
+function setSearchOpen(open) {
+  search.dataset.open = String(open);
+  searchToggle.setAttribute('aria-expanded', String(open));
+  searchToggle.setAttribute('aria-label', open ? 'Закрыть поиск' : 'Поиск по каталогу');
+  searchInput.tabIndex = open ? 0 : -1;
+  if (open) {
+    searchInput.focus();
+    return;
+  }
+  if (searchInput.value) {
+    searchInput.value = '';
+    activeQuery = '';
+    activePage = 1;
+    renderBooks();
+  }
+  searchScrolled = false;
+}
+
+searchToggle.addEventListener('click', () => {
+  setSearchOpen(search.dataset.open !== 'true');
+});
+
+searchInput.addEventListener('input', () => {
+  activeQuery = normalize(searchInput.value.trim());
+  activePage = 1;
+  renderBooks();
+  // К каталогу прокручиваем один раз за поиск, иначе страница дёргается на каждой букве.
+  if (activeQuery && !searchScrolled) {
+    searchScrolled = true;
+    document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+searchInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    setSearchOpen(false);
+    searchToggle.focus();
+  } else if (event.key === 'Enter') {
+    event.preventDefault();
+    document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+document.addEventListener('click', (event) => {
+  if (search.dataset.open === 'true' && !searchInput.value && !search.contains(event.target)) {
+    setSearchOpen(false);
+  }
+});
+
+/* Кнопка «Наверх» показывается, когда первый экран остался позади. */
+const toTop = document.getElementById('to-top');
+
+function syncToTop() {
+  const visible = window.scrollY > window.innerHeight * 0.8;
+  toTop.dataset.visible = String(visible);
+  toTop.tabIndex = visible ? 0 : -1;
+}
+
+window.addEventListener('scroll', syncToTop, { passive: true });
+toTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+syncToTop();
 
 document.getElementById('year').textContent = new Date().getFullYear();
 

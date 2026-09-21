@@ -5,15 +5,9 @@
    Что заменить перед запуском (сейчас стоят заглушки):
      1. STORE_CONFIG.phone    — реальный номер WhatsApp
      2. STORE_CONFIG.instagram / telegram — реальные ссылки
-     3. BOOKS — реальные книги: название, цена, фото, описание
-        (в разделах «Психология» и «Семья» книг пока нет — фильтр покажет
-        пустую полку, пока туда не добавят издания)
-     4. У каждой книги publisher — id из списка PUBLISHERS; новое
-        издательство сначала добавьте в PUBLISHERS, потом ставьте книгам
-
-   ВАЖНО про карточку книги. Авторы в BOOKS настоящие, а переплёт, год
-   и число страниц у каждого тиража свои — сверьте их с теми книгами,
-   которые реально стоят на полке, иначе покупатель получит не то издание.
+     3. BOOKS — при новых поступлениях добавляйте книги по образцу ниже
+     4. publisher — id из списка PUBLISHERS; новое издательство сначала
+        добавьте в PUBLISHERS, потом ставьте книгам
 
    Магазин офлайн находится в Хасавюрте (Россия), поэтому все цены —
    в рублях, целыми числами, без пробелов: 1850, а не «1 850 ₽».
@@ -24,15 +18,15 @@ const STORE_CONFIG = {
   // Номер WhatsApp: только цифры, с кодом страны (для России — 7),
   // без «+», пробелов и скобок.
   // Отсюда собираются ВСЕ ссылки на сайте — меняется в одном месте.
-  phone: '79280000000', // TODO: заменить на реальный номер
+  phone: '79218141414', // номер из Telegram-канала @BADRMAGAZIN
 
   // Как номер показывать людям в блоке контактов.
-  phoneDisplay: '+7 928 000-00-00', // TODO: заменить на реальный номер
+  phoneDisplay: '+7 921 814-14-14',
 
   telegram: 'https://t.me/BADRMAGAZIN',
-  instagram: 'https://instagram.com/badrmagazin', // TODO: подтвердить реальный аккаунт
+  instagram: 'https://www.instagram.com/badr.magazin/',
 
-  address: 'Республика Дагестан, г. Хасавюрт, ул. Гамидова, 90',
+  address: 'г. Хасавюрт, ул. Гамидова, 175, Т/Ц «Грэйс», 2-й этаж (напротив «Арбата»)',
   workingHours: 'Ежедневно, 09:00 – 19:00', // TODO: уточнить
 
   currency: '₽'
@@ -46,14 +40,17 @@ const CATEGORIES = [
   { id: 'aqidah', label: 'Акыда и фикх' },
   { id: 'psychology', label: 'Психология' },
   { id: 'family', label: 'Семья' },
+  { id: 'history', label: 'Сира и история' },
   { id: 'kids', label: 'Детям' }
 ];
 
 const PUBLISHERS = [
   { id: 'all', label: 'Все издательства' },
   { id: 'badr-book', label: 'Badr Book' },
-  { id: 'hikma', label: 'Hikma' },
-  { id: 'wasat-media', label: 'Wasat Media' }
+  { id: 'wasat-media', label: 'Wasat Media' },
+  { id: 'fajr', label: 'Фаджр' },
+  { id: 'dar-al-salam', label: 'Dar al-Salam' },
+  { id: 'noonbook', label: 'Noonbook' }
 ];
 
 /* Обложки: положите файлы в assets/images/books/ и укажите путь в image,
@@ -61,224 +58,69 @@ const PUBLISHERS = [
    Пропорции обложки на сайте — 5:7, лучше загружать примерно 600×840 px. */
 const PLACEHOLDER_COVER = 'assets/images/books/cover-placeholder.svg';
 
-/* Поля книги:
+/* Книги, фото и розничные цены взяты из Telegram-канала @BADRMAGAZIN
+   (посты 2025–2026 гг.). Фото — первый кадр обложки из поста, обрезанный
+   под 5:7. Оптовая цена в канале ниже розничной; на сайте — розница.
+
+   Поля книги (необязательные можно не писать — строка в карточке скроется):
      title       — как книга названа на обложке
-     author      — автор или составитель; для Корана — чей перевод смыслов
-     category    — id из CATEGORIES, publisher — id из PUBLISHERS
-     binding     — «Твёрдый переплёт» или «Мягкая обложка»
-     year, pages — год тиража и число страниц (TODO: сверить с полкой)
+     author      — автор или составитель (необязательно)
+     category    — id из CATEGORIES
+     publisher   — id из PUBLISHERS (необязательно, если неизвестно)
+     binding     — «Твёрдый переплёт» или «Мягкая обложка» (необязательно)
+     year, pages — год тиража и число страниц (необязательно)
      description — одна строка для карточки на полке
-     about       — 2–3 предложения, их видно только в окне книги
-   Цены — в рублях. TODO: выставить реальные. */
+     about       — 2–3 предложения для окна книги (необязательно) */
 const BOOKS = [
-  {
-    id: 'b1',
-    title: 'Коран. Перевод смыслов',
-    author: 'Перевод смыслов Эльмира Кулиева',
-    category: 'quran',
-    publisher: 'badr-book',
-    binding: 'Твёрдый переплёт',
-    year: 2019,
-    pages: 808,
-    price: 2200,
-    image: PLACEHOLDER_COVER,
-    description: 'Твёрдый переплёт, крупный шрифт, закладка-ляссе.',
-    about:
-      'Самый распространённый на русском языке перевод смыслов Корана: Эльмир Кулиев работал над ним, сверяясь с классическими тафсирами. Крупный шрифт и плотная бумага рассчитаны на ежедневное чтение, а не на разовый подарок.'
-  },
-  {
-    id: 'b2',
-    title: 'Коран карманного формата',
-    author: 'Перевод смыслов Эльмира Кулиева',
-    category: 'quran',
-    publisher: 'badr-book',
-    binding: 'Мягкая обложка',
-    year: 2021,
-    pages: 604,
-    price: 850,
-    image: PLACEHOLDER_COVER,
-    description: 'Компактное издание, помещается в сумку или карман.',
-    about:
-      'Тот же перевод смыслов Эльмира Кулиева в уменьшенном формате — для поездок, работы и учёбы. Гибкая обложка держит раскрытую страницу, а книга не занимает места в сумке.'
-  },
-  {
-    id: 'b3',
-    title: 'Таджвид. Правила чтения Корана',
-    author: 'Учебное пособие',
-    category: 'quran',
-    publisher: 'hikma',
-    binding: 'Мягкая обложка',
-    year: 2020,
-    pages: 112,
-    price: 700,
-    image: PLACEHOLDER_COVER,
-    description: 'Учебник для начинающих, с упражнениями и цветными пометками.',
-    about:
-      'Пособие ведёт от арабских букв и огласовок до правил протяжения и остановок. Цветные пометки показывают, где именно в аяте применяется правило, а упражнения после каждой темы закрепляют его вслух.'
-  },
-  {
-    id: 'b4',
-    title: 'Толкование Корана. Тафсир ас-Саади',
-    author: 'Абдуррахман ибн Насир ас-Саади',
-    category: 'tafsir',
-    publisher: 'badr-book',
-    binding: 'Твёрдый переплёт',
-    year: 2018,
-    pages: 3000,
-    price: 4900,
-    image: PLACEHOLDER_COVER,
-    description: 'Полное издание в двух томах, подарочное оформление.',
-    about:
-      'Полный тафсир шейха Абдуррахмана ас-Саади (1889–1957) — один из немногих, переведённых на русский целиком, перевод Эльмира Кулиева. Толкование идёт подряд, аят за аятом, простым языком, без разбора цепочек передатчиков.'
-  },
-  {
-    id: 'b5',
-    title: 'Тафсир Ибн Касира. Избранное',
-    author: 'Исмаил ибн Касир',
-    category: 'tafsir',
-    publisher: 'hikma',
-    binding: 'Твёрдый переплёт',
-    year: 2016,
-    pages: 1120,
-    price: 2600,
-    image: PLACEHOLDER_COVER,
-    description: 'Сокращённое изложение классического толкования.',
-    about:
-      'Сокращение «Тафсир аль-Куран аль-Азим» — труда сирийского хафиза Ибн Касира (1301–1373), где Коран толкуется через сам Коран, хадисы и слова сподвижников. В избранное вошли самые читаемые суры, без длинных разборов иснадов.'
-  },
-  {
-    id: 'b6',
-    title: 'Сады праведных',
-    author: 'Имам Яхья ибн Шараф ан-Навави',
-    category: 'hadith',
-    publisher: 'badr-book',
-    binding: 'Твёрдый переплёт',
-    year: 2022,
-    pages: 656,
-    price: 1450,
-    image: PLACEHOLDER_COVER,
-    description: 'Сборник имама ан-Навави с комментариями.',
-    about:
-      'Самый известный сборник имама ан-Навави (1233–1277): хадисы о нраве, искренности, терпении и отношениях с людьми, разобранные по главам. Книгу читают подряд и держат настольной — почти каждая глава про обычный день, а не про редкий случай.'
-  },
-  {
-    id: 'b7',
-    title: 'Сахих аль-Бухари. Краткое изложение',
-    author: 'Имам аль-Бухари, сокращение аз-Зубайди',
-    category: 'hadith',
-    publisher: 'wasat-media',
-    binding: 'Твёрдый переплёт',
-    year: 2017,
-    pages: 960,
-    price: 1800,
-    image: PLACEHOLDER_COVER,
-    description: 'Отобранные хадисы с пояснениями к каждой главе.',
-    about:
-      'Мухтасар имама аз-Зубайди: из «Сахиха» аль-Бухари отобраны хадисы без повторов и длинных цепочек передатчиков, русский перевод Абдуллы Нирши. Пояснения к главам объясняют, к чему относится хадис, если это не видно из самого текста.'
-  },
-  {
-    id: 'b8',
-    title: 'Сорок хадисов ан-Навави',
-    author: 'Имам Яхья ибн Шараф ан-Навави',
-    category: 'hadith',
-    publisher: 'hikma',
-    binding: 'Мягкая обложка',
-    year: 2021,
-    pages: 128,
-    price: 450,
-    image: PLACEHOLDER_COVER,
-    description: 'Небольшой сборник, с которого удобно начинать.',
-    about:
-      'Хадисы, которые ан-Навави собрал как основу религии: намерения, ихсан, запретное и дозволенное. Традиционно это первая книга хадисов, которую заучивают наизусть, поэтому её берут и для себя, и для детей постарше.'
-  },
-  {
-    id: 'b9',
-    title: 'Крепость мусульманина',
-    author: 'Саид бин Али бин Вахф аль-Кахтани',
-    category: 'aqidah',
-    publisher: 'badr-book',
-    binding: 'Мягкая обложка',
-    year: 2020,
-    pages: 320,
-    price: 350,
-    image: PLACEHOLDER_COVER,
-    description: 'Дуа на каждый день с транскрипцией и переводом.',
-    about:
-      '«Хиснуль-муслим» — собранные аль-Кахтани мольбы из Корана и сунны на каждый день: пробуждение, выход из дома, дорога, болезнь, сон. Каждое дуа дано по-арабски, с транскрипцией и переводом, поэтому книга подойдёт и тем, кто пока не читает по-арабски.'
-  },
-  {
-    id: 'b10',
-    title: 'Основы религии. Учебное пособие',
-    author: 'Учебное пособие',
-    category: 'aqidah',
-    publisher: 'wasat-media',
-    binding: 'Мягкая обложка',
-    year: 2021,
-    pages: 208,
-    price: 890,
-    image: PLACEHOLDER_COVER,
-    description: 'Вероучение и поклонение простым языком, для начинающих.',
-    about:
-      'Пособие для тех, кто начинает с нуля: столпы веры и ислама, очищение, намаз, пост и закят — короткими главами, без арабских терминов без перевода. В конце каждой темы есть вопросы для самопроверки.'
-  },
-  {
-    id: 'b11',
-    title: 'Намаз. Пошаговое руководство',
-    author: 'Учебное пособие',
-    category: 'aqidah',
-    publisher: 'hikma',
-    binding: 'Мягкая обложка',
-    year: 2022,
-    pages: 96,
-    price: 590,
-    image: PLACEHOLDER_COVER,
-    description: 'С иллюстрациями каждого положения молитвы.',
-    about:
-      'Руководство разбирает намаз по шагам: омовение, вход в молитву, каждое положение и что в нём читается. Иллюстрации показывают позу целиком, поэтому по книге можно учиться самому, сверяясь с картинкой.'
-  },
-  {
-    id: 'b12',
-    title: 'Истории пророков для детей',
-    author: 'Пересказ для детей',
-    category: 'kids',
-    publisher: 'badr-book',
-    binding: 'Твёрдый переплёт',
-    year: 2022,
-    pages: 144,
-    price: 1100,
-    image: PLACEHOLDER_COVER,
-    description: 'Крупные иллюстрации, короткие главы для чтения на ночь.',
-    about:
-      'Истории пророков, пересказанные простым языком для детей примерно 5–10 лет. Одна история — одна короткая глава с большой иллюстрацией на разворот, как раз на вечернее чтение.'
-  },
-  {
-    id: 'b13',
-    title: 'Арабский алфавит для малышей',
-    author: 'Развивающая книга',
-    category: 'kids',
-    publisher: 'wasat-media',
-    binding: 'Твёрдый переплёт',
-    year: 2023,
-    pages: 24,
-    price: 550,
-    image: PLACEHOLDER_COVER,
-    description: 'Плотные картонные страницы, подходит для самых маленьких.',
-    about:
-      'Первое знакомство с арабскими буквами: на каждой странице одна буква, картинка и слово, которое с неё начинается. Плотный картон не рвётся в руках у малыша, углы скруглены.'
-  },
-  {
-    id: 'b14',
-    title: 'Мой первый намаз',
-    author: 'Развивающая книга',
-    category: 'kids',
-    publisher: 'wasat-media',
-    binding: 'Мягкая обложка',
-    year: 2023,
-    pages: 48,
-    price: 690,
-    image: PLACEHOLDER_COVER,
-    description: 'Детская книга о молитве с наклейками и заданиями.',
-    about:
-      'Книга объясняет ребёнку намаз через картинки и задания: куда встать, что сказать, как держать руки. Наклейки отмечают пройденные шаги, поэтому учёба идёт как игра, а не как урок.'
-  }
+  {"id": "nachni-s-sebya", "title": "Начни с себя", "author": "Яхья ибн Ибрахим аль-Яхья", "category": "psychology", "publisher": "badr-book", "binding": "Твёрдый переплёт", "pages": 192, "price": 600, "image": "assets/images/books/nachni-s-sebya.jpg", "description": "Бестселлер BadrBook в новом оформлении: глянцевые страницы, твёрдая обложка."},
+  {"id": "nashih-nravov", "title": "Наших нравов достаточно!", "category": "psychology", "publisher": "badr-book", "price": 600, "image": "assets/images/books/nashih-nravov.jpg", "description": "Из трио новых книг издательства Badr."},
+  {"id": "iz-tesnoty-k-svetu", "title": "Из тесноты к свету", "category": "psychology", "publisher": "badr-book", "price": 600, "image": "assets/images/books/iz-tesnoty-k-svetu.jpg", "description": "Из трио новых книг издательства Badr."},
+  {"id": "ego-vospital-allah", "title": "Его воспитал сам Аллах. Мухаммад ﷺ", "author": "Сафи ар-Рахман аль-Мубаракфури", "category": "history", "publisher": "badr-book", "pages": 528, "price": 750, "image": "assets/images/books/ego-vospital-allah.jpg", "description": "Сокращённая автором версия «Ар-Рахик аль-Махтум»."},
+  {"id": "dostoinstva-proroka", "title": "Достоинства пророка Мухаммада ﷺ", "category": "history", "publisher": "badr-book", "pages": 192, "price": 450, "image": "assets/images/books/dostoinstva-proroka.jpg", "description": "Издание ИД «BadrBook»."},
+  {"id": "vabil", "title": "Вабиль. Благодатный дождь", "author": "Ибн Каййим аль-Джаузийя, разъяснение шейха Ибн База", "category": "aqidah", "publisher": "fajr", "pages": 752, "price": 1600, "image": "assets/images/books/vabil.jpg", "description": "Большой формат 17×24, 752 страницы."},
+  {"id": "raskrytie-yavnoy-istiny", "title": "Раскрытие явной истины о лечении припадков, колдовства и сглаза", "author": "Абдуллах ат-Тайяр, Сами аль-Мубарак", "category": "aqidah", "pages": 352, "price": 850, "image": "assets/images/books/raskrytie-yavnoy-istiny.jpg", "description": "Лечение Кораном и Сунной: сглаз, колдовство, рукья."},
+  {"id": "500-voprosov-o-dzhinah", "title": "500 вопросов и ответов о джинах", "category": "aqidah", "binding": "Твёрдый переплёт", "pages": 560, "price": 1100, "image": "assets/images/books/500-voprosov-o-dzhinah.jpg", "description": "Формат «вопрос — ответ», лёгкий для понимания язык."},
+  {"id": "razyasnenie-40-hadisov", "title": "Разъяснение книги «40 хадисов» ан-Навави", "category": "hadith", "price": 600, "image": "assets/images/books/razyasnenie-40-hadisov.jpg", "description": "Комментарий к сорока хадисам имама ан-Навави."},
+  {"id": "dzhami-al-ulum", "title": "Джами аль-улюм. Свод знаний и мудрости", "author": "Ибн Раджаб аль-Ханбали", "category": "hadith", "publisher": "wasat-media", "binding": "Твёрдый переплёт", "price": 850, "image": "assets/images/books/dzhami-al-ulum.jpg", "description": "Классическое разъяснение пятидесяти хадисов."},
+  {"id": "40-hadisov-dlya-detey", "title": "40 достоверных хадисов для детей", "category": "kids", "binding": "Твёрдый переплёт", "pages": 112, "price": 400, "image": "assets/images/books/40-hadisov-dlya-detey.jpg", "description": "Твёрдый переплёт, белая бумага."},
+  {"id": "propis-korana", "title": "Пропись всего Корана", "category": "quran", "binding": "Твёрдый переплёт", "price": 1500, "image": "assets/images/books/propis-korana.jpg", "description": "Три цвета обложки, в комплекте закладка и листовки."},
+  {"id": "mushaf-raduzhny", "title": "Мусхаф радужный", "category": "quran", "binding": "Твёрдый переплёт", "price": 1500, "image": "assets/images/books/mushaf-raduzhny.jpg", "description": "Формат 14×20, разноцветные листы."},
+  {"id": "tafsir-ibn-kasira", "title": "Толкование Корана. Ибн Касир", "author": "Исмаил ибн Касир", "category": "tafsir", "binding": "Твёрдый переплёт", "price": 3400, "image": "assets/images/books/tafsir-ibn-kasira.jpg", "description": "Весь Коран в четырёх томах."},
+  {"id": "vechny-putnik", "title": "Вечный путник с Кораном", "author": "Ахмад ибн Салих ат-Тувайан", "category": "quran", "publisher": "noonbook", "pages": 128, "price": 350, "image": "assets/images/books/vechny-putnik.jpg", "description": "Размышления о жизни рядом с Кораном."},
+  {"id": "musulmanskaya-zhenshchina", "title": "Мусульманская женщина", "category": "aqidah", "price": 650, "image": "assets/images/books/musulmanskaya-zhenshchina.jpg", "description": "Фикх хиджаба, естественных кровотечений и закята с украшений."},
+  {"id": "molitva-ahmad", "title": "Молитва", "author": "Имам Ахмад ибн Ханбаль, комментарии Сабри Шахина", "category": "aqidah", "binding": "Твёрдый переплёт", "pages": 111, "price": 350, "image": "assets/images/books/molitva-ahmad.jpg", "description": "Послание имама Ахмада о намазе с комментариями."},
+  {"id": "kniga-nikyaha", "title": "Книга никяха", "category": "family", "pages": 224, "price": 500, "image": "assets/images/books/kniga-nikyaha.jpg", "description": "Сборник фетв о браке, разводе и правах супругов."},
+  {"id": "voprosy-o-mnogozhenstve", "title": "Вопросы о многоженстве", "category": "family", "price": 400, "image": "assets/images/books/voprosy-o-mnogozhenstve.jpg", "description": "Ответы на частые вопросы о многоженстве."},
+  {"id": "prorocheskiy-put-vospitaniya", "title": "Пророческий путь в воспитании детей в свете Корана и Сунны", "author": "Саид ибн Али ибн Вахф аль-Кахтани", "category": "family", "pages": 448, "price": 1000, "image": "assets/images/books/prorocheskiy-put-vospitaniya.jpg", "description": "Воспитание детей по Корану и Сунне."},
+  {"id": "kachestva-pravednoy-zhenshchiny", "title": "Качества праведной женщины", "category": "family", "pages": 480, "price": 1000, "image": "assets/images/books/kachestva-pravednoy-zhenshchiny.jpg", "description": "Большая книга о нраве и качествах праведной женщины."},
+  {"id": "ty-tozhe-spodvizhnitsa", "title": "Ты тоже сподвижница", "category": "family", "binding": "Твёрдый переплёт", "pages": 272, "price": 650, "image": "assets/images/books/ty-tozhe-spodvizhnitsa.jpg", "description": "Твёрдый переплёт, белая бумага."},
+  {"id": "zhenskaya-revnost", "title": "Женская ревность", "author": "Хауля Дарвиш", "category": "family", "publisher": "wasat-media", "pages": 196, "price": 550, "image": "assets/images/books/zhenskaya-revnost.jpg", "description": "О ревности, её причинах и о том, как с ней жить."},
+  {"id": "blagochestie-k-roditelyam", "title": "Благочестие к родителям", "category": "family", "publisher": "wasat-media", "pages": 190, "price": 550, "image": "assets/images/books/blagochestie-k-roditelyam.jpg", "description": "О праве родителей и о том, как его исполнить."},
+  {"id": "pochtitelnost-k-roditelyam", "title": "Почтительность к родителям", "category": "family", "price": 600, "image": "assets/images/books/pochtitelnost-k-roditelyam.jpg", "description": "Снова в наличии."},
+  {"id": "hidzhab", "title": "Хиджаб", "category": "family", "price": 600, "image": "assets/images/books/hidzhab.jpg", "description": "Снова в наличии."},
+  {"id": "schastie-s-allahom", "title": "Счастье с Аллахом", "category": "psychology", "publisher": "wasat-media", "pages": 288, "price": 700, "image": "assets/images/books/schastie-s-allahom.jpg", "description": "О покое сердца рядом с Аллахом."},
+  {"id": "v-teni-pravila-zhizni", "title": "В тени. Правила жизни", "category": "psychology", "publisher": "wasat-media", "pages": 201, "price": 550, "image": "assets/images/books/v-teni-pravila-zhizni.jpg", "description": "Короткие правила для каждого дня."},
+  {"id": "ozarenny", "title": "Озарённый. Тоска сердца по небесам", "author": "Сулейман аль-Убуди", "category": "psychology", "publisher": "wasat-media", "pages": 192, "price": 550, "image": "assets/images/books/ozarenny.jpg", "description": "О тоске верующего сердца по Раю."},
+  {"id": "bolezni-serdec", "title": "Болезни сердец и их исцеление", "category": "psychology", "publisher": "wasat-media", "price": 700, "image": "assets/images/books/bolezni-serdec.jpg", "description": "О болезнях сердца и путях их исцеления."},
+  {"id": "poroki-yazyka", "title": "Пороки языка в свете Корана и Сунны", "category": "psychology", "publisher": "wasat-media", "pages": 198, "price": 550, "image": "assets/images/books/poroki-yazyka.jpg", "description": "О грехах языка и о том, как их избежать."},
+  {"id": "50-svechey", "title": "50 свечей, освещающих ваш путь", "category": "psychology", "pages": 191, "price": 450, "image": "assets/images/books/50-svechey.jpg", "description": "Советы сыновьям и дочерям."},
+  {"id": "desyatki-ibn-kayyima", "title": "Десятки Ибн Каййима", "category": "psychology", "publisher": "dar-al-salam", "pages": 208, "price": 550, "image": "assets/images/books/desyatki-ibn-kayyima.jpg", "description": "Наставления Ибн Каййима, собранные по десять."},
+  {"id": "prichiny-i-deyaniya", "title": "Причины и деяния, умножающие награду", "category": "aqidah", "publisher": "wasat-media", "price": 600, "image": "assets/images/books/prichiny-i-deyaniya.jpg", "description": "Дела, за которые награда многократно возрастает."},
+  {"id": "poleznye-pravila", "title": "Полезные правила счастливой жизни", "category": "psychology", "publisher": "wasat-media", "binding": "Твёрдый переплёт", "price": 850, "image": "assets/images/books/poleznye-pravila.jpg", "description": "Правила спокойной и счастливой жизни."},
+  {"id": "raudat-al-ukalya", "title": "Раудат аль-укаля. Сад для отдыха разумных", "author": "Ибн Хиббан аль-Бусти", "category": "psychology", "publisher": "wasat-media", "binding": "Твёрдый переплёт", "price": 850, "image": "assets/images/books/raudat-al-ukalya.jpg", "description": "Классика об уме, нраве и отношениях с людьми."},
+  {"id": "lyataif-al-maarif", "title": "Лятаиф аль-маариф. О временах и сезонах поклонений", "author": "Ибн Раджаб аль-Ханбали", "category": "aqidah", "publisher": "wasat-media", "binding": "Твёрдый переплёт", "price": 850, "image": "assets/images/books/lyataif-al-maarif.jpg", "description": "Поклонение по месяцам и сезонам года."},
+  {"id": "minhadzh-al-kasidin", "title": "Минхадж аль-Касидин. Путь стремящихся к Аллаху", "category": "aqidah", "publisher": "wasat-media", "binding": "Твёрдый переплёт", "pages": 656, "price": 1650, "image": "assets/images/books/minhadzh-al-kasidin.jpg", "description": "Спутник на пути к Аллаху, основанный на Сунне."},
+  {"id": "kitab-az-zuhd", "title": "Китаб аз-Зухд. Книга аскетизма", "category": "aqidah", "publisher": "wasat-media", "binding": "Твёрдый переплёт", "pages": 493, "price": 1450, "image": "assets/images/books/kitab-az-zuhd.jpg", "description": "О скромности в мирском и стремлении к вечному."},
+  {"id": "kniga-udela", "title": "Книга удела", "category": "aqidah", "publisher": "wasat-media", "pages": 377, "price": 800, "image": "assets/images/books/kniga-udela.jpg", "description": "О предопределении и уделе человека."},
+  {"id": "toska-po-ramadanu", "title": "И забилось моё сердце от тоски по Рамадану", "category": "aqidah", "price": 700, "image": "assets/images/books/toska-po-ramadanu.jpg", "description": "Книга, которая готовит сердце к Рамадану."},
+  {"id": "posol-znaniy", "title": "Посол знаний и призыва", "category": "history", "binding": "Твёрдый переплёт", "pages": 560, "price": 850, "image": "assets/images/books/posol-znaniy.jpg", "description": "Твёрдый переплёт, белая бумага."},
+  {"id": "put-k-pokayaniyu", "title": "Путь к покаянию", "author": "Мухаммад ибн Ибрахим аль-Хамд", "category": "aqidah", "binding": "Мягкая обложка", "pages": 88, "price": 250, "image": "assets/images/books/put-k-pokayaniyu.jpg", "description": "Разъяснение сути покаяния и его положений."},
+  {"id": "probuzhdenie-very", "title": "Пробуждение веры", "category": "aqidah", "pages": 48, "price": 130, "image": "assets/images/books/probuzhdenie-very.jpg", "description": "Небольшая книга об обновлении веры."},
+  {"id": "100-dua", "title": "100 дуа из Корана и Сунны", "category": "aqidah", "price": 200, "image": "assets/images/books/100-dua.jpg", "description": "Мольбы из Корана и Сунны в компактном формате."},
+  {"id": "poslaniya-ot-proroka", "title": "Послания от Пророка ﷺ", "category": "history", "price": 1000, "image": "assets/images/books/poslaniya-ot-proroka.jpg", "description": "Послания для тех, кто любит Пророка ﷺ."},
+  {"id": "shkola-muhammada", "title": "Школа Мухаммада ﷺ", "category": "history", "price": 600, "image": "assets/images/books/shkola-muhammada.jpg", "description": "Чему учит жизнь Пророка ﷺ."},
+  {"id": "al-aksa", "title": "Аль-Акса. Истина против мифов", "category": "history", "price": 650, "image": "assets/images/books/al-aksa.jpg", "description": "История и значение мечети Аль-Акса."},
+  {"id": "umar-al-muhtar", "title": "Умар аль-Мухтар", "author": "Али Мухаммад ас-Салляби", "category": "history", "price": 600, "image": "assets/images/books/umar-al-muhtar.jpg", "description": "Биография «Льва пустыни», героя ливийского сопротивления."},
+  {"id": "titany-istorii", "title": "Титаны истории. 2 тома", "author": "Али ат-Тантави", "category": "history", "pages": 894, "price": 1500, "image": "assets/images/books/titany-istorii.jpg", "description": "Два тома по 447 страниц, цена за комплект."},
+  {"id": "kachestva-lyudey-dzhahilii", "title": "Качества людей времён невежества", "category": "history", "price": 850, "image": "assets/images/books/kachestva-lyudey-dzhahilii.jpg", "description": "Черты эпохи невежества, от которых предостерегает ислам."}
 ];

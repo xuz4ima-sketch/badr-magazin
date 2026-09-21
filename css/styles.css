@@ -961,6 +961,34 @@ a {
   color: var(--ink);
 }
 
+/* Страницы каталога: те же «таблетки», что у фильтров. */
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.pager[hidden] {
+  display: none;
+}
+
+.pager .filter {
+  min-width: 44px;
+  padding-inline: 0.9rem;
+}
+
+.pager .filter:disabled {
+  opacity: 0.4;
+  cursor: default;
+  transform: none;
+  background: transparent;
+  color: var(--text-soft);
+  border-color: var(--hairline);
+}
+
 .shelf__empty {
   grid-column: 1 / -1;
   color: var(--text-soft);
@@ -1262,15 +1290,101 @@ a.contacts__value:hover {
 /* Cart: кнопка в шапке, счётчик и шаговый переключатель --------------------
    Состав корзины хранится в localStorage, поэтому переживает перезагрузку. */
 
-.cart-btn {
+/* Поиск: поле прячется под кнопкой и выезжает из неё влево, поверх меню. */
+.search {
   position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  margin-left: 0.85rem;
+}
+
+.search__input {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  z-index: 1;
+  width: 46px;
+  height: 46px;
+  padding: 0 52px 0 1rem;
+  transform: translateY(-50%);
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: width 0.4s var(--ease-out), opacity 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.search__input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.search__input:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px var(--teal-wash);
+}
+
+.search[data-open="true"] .search__input {
+  width: min(340px, calc(100vw - 170px));
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.search__toggle {
+  position: relative;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
   width: 46px;
   height: 46px;
-  margin-left: 0.85rem;
+  background: none;
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  color: var(--teal-dark);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.search__toggle:hover,
+.search[data-open="true"] .search__toggle {
+  border-color: var(--teal);
+  background: var(--teal-wash);
+  color: var(--teal);
+}
+
+.search__toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.search__icon-close,
+.search[data-open="true"] .search__icon-open {
+  display: none;
+}
+
+.search[data-open="true"] .search__icon-close {
+  display: block;
+}
+
+.cart-btn {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  flex-shrink: 0;
+  min-width: 58px;
+  height: 52px;
+  padding: 0 6px;
+  margin-left: 0.6rem;
   background: none;
   border: 1px solid var(--hairline);
   border-radius: 12px;
@@ -1295,6 +1409,14 @@ a.contacts__value:hover {
 .cart-btn svg {
   width: 21px;
   height: 21px;
+}
+
+.cart-btn__label {
+  font-family: var(--font-ui);
+  font-size: 0.66rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
 }
 
 .cart-btn__count {
@@ -1326,6 +1448,48 @@ a.contacts__value:hover {
 /* Короткий «толчок» кнопки, когда книга улетела в корзину. */
 .cart-btn.is-bumped {
   animation: bump 0.45s var(--ease-out);
+}
+
+/* Кнопка «Наверх»: появляется после первого экрана, ниже диалогов по z-index. */
+.to-top {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  color: var(--paper);
+  background-color: var(--teal);
+  background-image: linear-gradient(135deg, var(--teal-bright), var(--teal-dark));
+  border: 0;
+  border-radius: 14px;
+  box-shadow: var(--shadow-teal);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 0.25s ease, transform 0.3s var(--ease-out), visibility 0s linear 0.3s,
+    box-shadow 0.2s ease;
+}
+
+.to-top[data-visible="true"] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+
+.to-top[data-visible="true"]:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-teal-lift);
+}
+
+.to-top svg {
+  width: 22px;
+  height: 22px;
 }
 
 .stepper {
@@ -1952,10 +2116,20 @@ a.contacts__value:hover {
     margin-left: 0.5rem;
   }
 
-  /* Корзина всегда на виду — она не прячется в бургер-меню. */
-  .cart-btn {
+  /* Поиск и корзина всегда на виду — они не прячутся в бургер-меню. */
+  .search {
     order: 1;
     margin-left: auto;
+  }
+
+  /* Справа от поиска ещё корзина и бургер — поле не должно уйти за левый край. */
+  .search[data-open="true"] .search__input {
+    width: calc(100vw - 2 * var(--gutter) - 160px);
+  }
+
+  .cart-btn {
+    order: 1;
+    margin-left: 0.5rem;
   }
 
   .masthead__nav {

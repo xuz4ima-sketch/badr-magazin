@@ -44,8 +44,17 @@
       </a>
     </nav>
 
+    <div class="search" id="search" data-open="false" role="search">
+      <input class="search__input" id="search-input" type="search" placeholder="Название или автор" aria-label="Поиск по каталогу" autocomplete="off" tabindex="-1">
+      <button class="search__toggle" id="search-toggle" type="button" aria-expanded="false" aria-controls="search-input" aria-label="Поиск по каталогу">
+        <svg class="search__icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+        <svg class="search__icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+
     <button class="cart-btn" id="cart-open" type="button" aria-haspopup="dialog" aria-controls="cart" aria-label="Корзина пуста">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l-1.1 12.2a1 1 0 0 1-1 .8H8.1a1 1 0 0 1-1-.8L6 7z"/><path d="M9.5 7V5.6a2.5 2.5 0 0 1 5 0V7"/></svg>
+      <span class="cart-btn__label" aria-hidden="true">Корзина</span>
       <span class="cart-btn__count" id="cart-count" data-empty="true" aria-hidden="true">0</span>
     </button>
   </div>
@@ -208,6 +217,7 @@
       <div class="filters filters--tight" id="catalog-filters"></div>
       <div class="filters" id="publisher-filters" aria-label="Издательства"></div>
       <ul class="shelf" id="catalog-grid"></ul>
+      <nav class="pager" id="catalog-pager" aria-label="Страницы каталога" hidden></nav>
     </div>
   </section>
 
@@ -361,6 +371,10 @@
     </div>
   </article>
 </div>
+
+<button class="to-top" id="to-top" type="button" aria-label="Наверх" data-visible="false" tabindex="-1">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
 
 <script src="js/data.js"></script>
 <script src="js/main.js"></script>
