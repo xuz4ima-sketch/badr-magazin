@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Badr Magazin — исламские книги в Хасавюрте</title>
+<meta name="description" content="Официальный магазин Издательского Дома «BadrBook» в Хасавюрте: Коран, тафсиры, хадисы, фикх, книги по психологии и семейным отношениям, детские издания. Розница от 1 книги и опт от 5000 ₽, доставка по всему миру, заказ в WhatsApp.">
+<link rel="icon" href="assets/images/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+<meta property="og:title" content="Badr Magazin — исламские книги в Хасавюрте">
+<meta property="og:description" content="Книги Издательского Дома «BadrBook» и партнёров: Коран, тафсиры, хадисы, фикх, психология, детям. Опт и розница, доставка по всему миру.">
+<meta property="og:image" content="assets/images/logo.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#128099">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="shell masthead__inner">
+    <a href="#top" class="masthead__branding">
+      <img class="masthead__logo" src="assets/images/logo.png" alt="Badr Magazin" width="515" height="233">
+      <span class="masthead__divider"></span>
+      <span class="masthead__tagline">исламские<br>книги</span>
+    </a>
+
+    <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Меню">
+      <svg class="burger__open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <svg class="burger__close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+
+    <nav class="masthead__nav" id="site-nav" data-open="false">
+      <a class="masthead__link" href="#about">О магазине</a>
+      <a class="masthead__link" href="#catalog">Каталог</a>
+      <a class="masthead__link" href="#contacts">Контакты</a>
+      <a class="btn btn--solid" href="#" data-whatsapp target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.13h-.01c-1.48 0-2.94-.4-4.21-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.21-8.21 8.21zm4.43-6.62c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.78.96-.14.16-.29.18-.53.06-.24-.12-1.03-.38-1.96-1.21-.72-.65-1.21-1.45-1.36-1.69-.14-.24-.01-.38.11-.5.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.83-.84 2.02s.86 2.34.98 2.5c.12.16 1.7 2.6 4.12 3.65.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.44-.59 1.64-1.16.2-.57.2-1.05.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
+        Написать в WhatsApp
+      </a>
+    </nav>
+
+    <button class="cart-btn" id="cart-open" type="button" aria-haspopup="dialog" aria-controls="cart" aria-label="Корзина пуста">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l-1.1 12.2a1 1 0 0 1-1 .8H8.1a1 1 0 0 1-1-.8L6 7z"/><path d="M9.5 7V5.6a2.5 2.5 0 0 1 5 0V7"/></svg>
+      <span class="cart-btn__count" id="cart-count" data-empty="true" aria-hidden="true">0</span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Первый экран: за первую секунду должно быть понятно — что продаём,
+       где находимся и как заказать. Отсюда бейдж с городом, крупный
+       заголовок, две кнопки и живая витрина из книг. -->
+  <section class="hero">
+    <div class="hero__aura" aria-hidden="true"></div>
+
+    <div class="shell hero__inner">
+
+      <div class="hero__copy">
+        <p class="hero__badge">
+          <span class="hero__pulse" aria-hidden="true"></span>
+          Хасавюрт · официальный магазин ИД «BadrBook»
+        </p>
+
+        <h1 class="hero__line">Книги, к которым <span class="hero__mark"><span class="hero__accent">возвращаются</span></span></h1>
+
+        <p class="hero__sub">Хиты и новинки собственного Издательского Дома «BadrBook» и книги проверенных исламских издательств-партнёров: Коран, тафсиры, хадисы, фикх, психология, семейные отношения и детские издания. Заходите в магазин в Хасавюрте или напишите в WhatsApp — отправим в любую точку мира.</p>
+
+        <div class="hero__actions">
+          <a class="btn btn--solid btn--lg" href="#" data-whatsapp target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.13h-.01c-1.48 0-2.94-.4-4.21-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.21-8.21 8.21zm4.43-6.62c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.78.96-.14.16-.29.18-.53.06-.24-.12-1.03-.38-1.96-1.21-.72-.65-1.21-1.45-1.36-1.69-.14-.24-.01-.38.11-.5.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.83-.84 2.02s.86 2.34.98 2.5c.12.16 1.7 2.6 4.12 3.65.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.44-.59 1.64-1.16.2-.57.2-1.05.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
+            Подобрать книгу
+          </a>
+          <a class="btn btn--line btn--lg" href="#catalog">
+            Смотреть каталог
+            <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <ul class="hero__stats">
+          <li class="hero__stat">
+            <strong id="hero-count">—</strong>
+            <span id="hero-count-label">изданий в каталоге</span>
+          </li>
+          <li class="hero__stat">
+            <strong>Хасавюрт</strong>
+            <span>самовывоз из магазина</span>
+          </li>
+          <li class="hero__stat">
+            <strong>Весь мир</strong>
+            <span>доставка от 1 книги</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="hero__art" aria-hidden="true">
+        <div class="hero__stack">
+          <div class="tome tome--back">
+            <div class="tome__face">
+              <span class="tome__kind">Хадисы</span>
+              <span class="tome__hint">Сады праведных</span>
+            </div>
+          </div>
+          <div class="tome tome--mid">
+            <div class="tome__face">
+              <span class="tome__kind">Тафсиры</span>
+              <span class="tome__hint">Толкование Корана</span>
+            </div>
+          </div>
+          <div class="tome tome--front">
+            <div class="tome__face">
+              <img class="tome__logo" src="assets/images/logo.png" alt="" width="515" height="233">
+              <span class="tome__kind">Коран и таджвид</span>
+              <span class="tome__hint">Издания для чтения и подарка</span>
+            </div>
+          </div>
+        </div>
+
+        <span class="chip chip--a">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Проверенные издания
+        </span>
+        <span class="chip chip--b">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Поможем выбрать
+        </span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Напоминание о ценности знаний — короткая цитата между первым экраном
+       и бегущей строкой, чтобы её увидели сразу, но она не спорила с hero. -->
+  <section class="reminder">
+    <div class="shell">
+      <p class="reminder__quote">Кто не получил знаний в молодости — прочтите над ним четыре такбира, он уже умер</p>
+    </div>
+  </section>
+
+  <!-- Бегущая строка: за пару секунд показывает весь ассортимент. -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__track">
+      <div class="ticker__group">
+        <span>Коран</span><span class="ticker__sep">◆</span>
+        <span>Таджвид</span><span class="ticker__sep">◆</span>
+        <span>Тафсиры</span><span class="ticker__sep">◆</span>
+        <span>Хадисы</span><span class="ticker__sep">◆</span>
+        <span>Акыда и фикх</span><span class="ticker__sep">◆</span>
+        <span>Психология</span><span class="ticker__sep">◆</span>
+        <span>Семья</span><span class="ticker__sep">◆</span>
+        <span>Детские книги</span><span class="ticker__sep">◆</span>
+        <span>Опт и розница</span><span class="ticker__sep">◆</span>
+        <span>Доставка по всему миру</span><span class="ticker__sep">◆</span>
+      </div>
+      <div class="ticker__group">
+        <span>Коран</span><span class="ticker__sep">◆</span>
+        <span>Таджвид</span><span class="ticker__sep">◆</span>
+        <span>Тафсиры</span><span class="ticker__sep">◆</span>
+        <span>Хадисы</span><span class="ticker__sep">◆</span>
+        <span>Акыда и фикх</span><span class="ticker__sep">◆</span>
+        <span>Психология</span><span class="ticker__sep">◆</span>
+        <span>Семья</span><span class="ticker__sep">◆</span>
+        <span>Детские книги</span><span class="ticker__sep">◆</span>
+        <span>Опт и розница</span><span class="ticker__sep">◆</span>
+        <span>Доставка по всему миру</span><span class="ticker__sep">◆</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="band" id="about">
+    <div class="shell">
+      <h2 class="band-title">О магазине</h2>
+      <p class="about__lede">Badr Magazin — официальный магазин Издательского Дома «BadrBook» в Хасавюрте. Мы издаём собственные книги и собираем библиотеку, которой можно доверять: от Корана и классических тафсиров до первых книг для детей.</p>
+      <p class="about__body">В наличии хиты и новинки нашего издательского дома, а также книги проверенных исламских издательств-партнёров: Коран, тафсиры, сборники хадисов, пособия по фикху, литература по психологии и семейным отношениям, детские издания. Мы читаем то, что продаём, поэтому можем посоветовать издание под уровень и возраст, а не просто назвать цену.</p>
+
+      <div class="pledges">
+        <div class="pledge">
+          <p class="pledge__name">Собственное издательство</p>
+          <p class="pledge__note">Издательский Дом «BadrBook» выпускает книги под своим именем — их вы найдёте у нас первыми, сразу после выхода.</p>
+        </div>
+        <div class="pledge">
+          <p class="pledge__name">Проверенные партнёры</p>
+          <p class="pledge__note">Работаем напрямую с известными исламскими издательствами. Каждое поступление проверяем на качество печати и переплёта.</p>
+        </div>
+        <div class="pledge">
+          <p class="pledge__name">Розница и опт</p>
+          <p class="pledge__note">Розница — от одной книги. Для оптовиков от 5000 ₽ — специальные цены и прямые поставки без посредников.</p>
+        </div>
+        <div class="pledge">
+          <p class="pledge__name">Доставка и самовывоз</p>
+          <p class="pledge__note">Отправляем бережно и быстро по всему миру, а забрать заказ можно в магазине в Хасавюрте в удобное время.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--cool" id="catalog">
+    <div class="shell">
+      <div class="catalog__head">
+        <h2 class="band-title">Каталог</h2>
+        <span class="catalog__count" id="catalog-count"></span>
+      </div>
+      <div class="filters filters--tight" id="catalog-filters"></div>
+      <div class="filters" id="publisher-filters" aria-label="Издательства"></div>
+      <ul class="shelf" id="catalog-grid"></ul>
+    </div>
+  </section>
+
+  <section class="band band--deep" id="contacts">
+    <div class="shell">
+      <h2 class="band-title">Как нас найти</h2>
+      <div class="contacts__grid">
+        <div>
+          <div class="contacts__list">
+            <div class="contacts__row">
+              <p class="contacts__label">Адрес</p>
+              <p class="contacts__value" id="contact-address"></p>
+            </div>
+            <div class="contacts__row">
+              <p class="contacts__label">Часы работы</p>
+              <p class="contacts__value" id="contact-hours"></p>
+            </div>
+            <div class="contacts__row">
+              <p class="contacts__label">Телефон</p>
+              <a class="contacts__value" id="contact-phone" href="#"></a>
+            </div>
+          </div>
+
+          <div class="socials">
+            <a class="social" href="#" data-whatsapp target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.13h-.01c-1.48 0-2.94-.4-4.21-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.21-8.21 8.21zm4.43-6.62c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.78.96-.14.16-.29.18-.53.06-.24-.12-1.03-.38-1.96-1.21-.72-.65-1.21-1.45-1.36-1.69-.14-.24-.01-.38.11-.5.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.83-.84 2.02s.86 2.34.98 2.5c.12.16 1.7 2.6 4.12 3.65.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.44-.59 1.64-1.16.2-.57.2-1.05.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
+              WhatsApp
+            </a>
+            <a class="social" href="#" data-telegram target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 4.2 18.9 19c-.2 1-.8 1.2-1.6.75l-4.5-3.3-2.2 2.1c-.24.24-.44.44-.9.44l.32-4.6 8.35-7.55c.36-.32-.08-.5-.56-.18L7.5 13.1 3.05 11.7c-.97-.3-.99-.97.2-1.44l17.35-6.7c.8-.3 1.5.2 1.2 1.64z"/></svg>
+              Telegram
+            </a>
+            <a class="social" href="#" data-instagram target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
+              Instagram
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="shell colophon__inner">
+    <span>© <span id="year"></span> Badr Magazin</span>
+    <span>Исламская литература на русском языке · Хасавюрт</span>
+  </div>
+</footer>
+
+
+<!-- Корзина. Заказ уходит одним сообщением в WhatsApp — так же, как раньше
+     уходила отдельная книга, но теперь списком. -->
+<div class="drawer" id="cart" data-open="false" role="dialog" aria-modal="true" aria-labelledby="cart-title" hidden>
+  <div class="drawer__veil" data-cart-close></div>
+
+  <aside class="drawer__panel">
+    <header class="drawer__head">
+      <h2 class="drawer__title" id="cart-title">Корзина</h2>
+      <button class="drawer__close" type="button" data-cart-close aria-label="Закрыть корзину">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+
+    <form class="drawer__form" id="cart-form" novalidate>
+      <div class="drawer__scroll">
+        <ul class="drawer__list" id="cart-list"></ul>
+
+        <!-- Данные покупателя: без них продавцу нечем оформить доставку.
+             Поля запоминаются в этом браузере, чтобы не вводить их заново. -->
+        <div class="drawer__checkout" id="cart-checkout" hidden>
+          <h3 class="drawer__subtitle">Данные для доставки</h3>
+
+          <label class="field">
+            <span class="field__label">Имя</span>
+            <input class="field__input" type="text" id="checkout-name" name="name" autocomplete="name" placeholder="Как к вам обращаться" required>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Телефон</span>
+            <input class="field__input" type="tel" id="checkout-phone" name="phone" autocomplete="tel" placeholder="+7 900 000-00-00" required>
+          </label>
+
+          <fieldset class="field-group">
+            <legend class="field__label">Способ доставки</legend>
+            <div class="radio-set" id="checkout-delivery">
+              <label class="radio">
+                <input type="radio" name="delivery" value="Почта России" required>
+                <span>Почта России</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="delivery" value="СДЭК">
+                <span>СДЭК</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="delivery" value="Озон">
+                <span>Озон</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <label class="field">
+            <span class="field__label">Адрес доставки</span>
+            <textarea class="field__input field__input--area" id="checkout-address" name="address" autocomplete="street-address" placeholder="Город, улица, дом, квартира" rows="2" required></textarea>
+          </label>
+        </div>
+      </div>
+
+      <footer class="drawer__foot" id="cart-foot" hidden>
+        <div class="drawer__total">
+          <span>Итого</span>
+          <strong id="cart-total">0 ₽</strong>
+        </div>
+        <button class="btn btn--solid btn--lg drawer__order" id="cart-order" type="submit">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.13h-.01c-1.48 0-2.94-.4-4.21-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.21-8.21 8.21zm4.43-6.62c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.78.96-.14.16-.29.18-.53.06-.24-.12-1.03-.38-1.96-1.21-.72-.65-1.21-1.45-1.36-1.69-.14-.24-.01-.38.11-.5.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.83-.84 2.02s.86 2.34.98 2.5c.12.16 1.7 2.6 4.12 3.65.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.44-.59 1.64-1.16.2-.57.2-1.05.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
+          Оформить в WhatsApp
+        </button>
+        <p class="drawer__note">Заполните имя, телефон, способ доставки и адрес — отправим их вместе со списком книг, продавец подтвердит наличие и сумму.</p>
+        <button class="drawer__clear" id="cart-clear" type="button">Очистить корзину</button>
+      </footer>
+    </form>
+  </aside>
+</div>
+
+<!-- Карточка книги. Открывается кликом по книге на полке: здесь то, чего
+     не помещается в полку — автор, издательство, переплёт, год. -->
+<div class="sheet" id="book-sheet" data-open="false" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden>
+  <div class="sheet__veil" data-sheet-close></div>
+
+  <article class="sheet__panel">
+    <button class="sheet__close" type="button" data-sheet-close aria-label="Закрыть карточку книги">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+
+    <img class="sheet__cover" id="sheet-cover" src="" alt="" width="215" height="301">
+
+    <div class="sheet__info">
+      <p class="sheet__kind" id="sheet-kind"></p>
+      <h2 class="sheet__title" id="sheet-title"></h2>
+      <p class="sheet__author" id="sheet-author"></p>
+      <p class="sheet__about" id="sheet-about"></p>
+
+      <dl class="specs" id="sheet-specs"></dl>
+
+      <div class="sheet__foot">
+        <span class="sheet__price" id="sheet-price"></span>
+        <div class="book__cart" id="sheet-cart"></div>
+      </div>
+    </div>
+  </article>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

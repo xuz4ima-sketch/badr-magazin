@@ -1,0 +1,2036 @@
+/* Badr Magazin — магазин исламской литературы в Хасавюрте.
+   Фирменный цвет взят из логотипа: бирюзовый #128099. Он держит на себе
+   все акценты — кнопки, фильтры, подложки и витрину первого экрана. */
+
+:root {
+  --ink: #000000;
+
+  /* Бирюзовая шкала логотипа: от светлой подложки до почти чёрного фона. */
+  --teal: #128099;
+  --teal-bright: #17a2c0;
+  --teal-glow: #3fc3dc;
+  --teal-dark: #0d5f70;
+  --teal-deep: #06262e;
+  --teal-light: #6fc9dd;
+  --teal-wash: #e8f5f8;
+
+  --paper: #ffffff;
+  --paper-cool: #f2f6f7;
+  --text: #17201f;
+  --text-soft: #5a6a6d;
+  --hairline: #d8e3e5;
+
+  --font-book: "Literata", Georgia, "Times New Roman", serif;
+  --font-ui: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --radius: 12px;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.3, 1);
+  --shadow-teal: 0 10px 24px -10px rgba(18, 128, 153, 0.55);
+  --shadow-teal-lift: 0 18px 34px -12px rgba(18, 128, 153, 0.6);
+
+  --measure: 64ch;
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+  --section-gap: clamp(4.5rem, 10vw, 8.5rem);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--text);
+  font-family: var(--font-book);
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+
+/* Атрибут hidden должен побеждать любой display из наших правил —
+   иначе скрытый подвал корзины всё равно остаётся на экране. */
+[hidden] {
+  display: none !important;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+}
+
+.shell {
+  width: min(100% - var(--gutter) * 2, 1180px);
+  margin-inline: auto;
+}
+
+.band {
+  padding-block: var(--section-gap);
+}
+
+.band--cool {
+  background: var(--paper-cool);
+}
+
+.band--deep {
+  background: var(--teal-deep);
+  color: #dCe9eb;
+}
+
+/* Section headings ------------------------------------------------------ */
+
+.band-title {
+  font-family: var(--font-book);
+  font-weight: 600;
+  font-size: clamp(1.9rem, 1.4rem + 2.2vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin: 0 0 1.75rem;
+}
+
+.band--deep .band-title {
+  color: var(--paper);
+}
+
+/* Header ---------------------------------------------------------------- */
+
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.masthead__inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 68px;
+}
+
+.masthead__branding {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.masthead__logo {
+  height: 38px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.masthead__divider {
+  width: 1px;
+  height: 22px;
+  background: var(--hairline);
+  flex-shrink: 0;
+}
+
+.masthead__tagline {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  line-height: 1.2;
+}
+
+.masthead__nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.5vw, 2rem);
+}
+
+.masthead__link {
+  position: relative;
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text);
+  padding-block: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+/* Подчёркивание выезжает слева — то же движение, что у кнопок. */
+.masthead__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--teal-bright), var(--teal-dark));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.28s var(--ease-out);
+}
+
+.masthead__link:hover {
+  color: var(--teal);
+}
+
+.masthead__link:hover::after {
+  transform: scaleX(1);
+}
+
+.burger {
+  display: none;
+  margin-left: auto;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--teal-dark);
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.burger:hover,
+.burger[aria-expanded="true"] {
+  border-color: var(--teal);
+  background: var(--teal-wash);
+  color: var(--teal);
+}
+
+.burger svg {
+  width: 20px;
+  height: 20px;
+}
+
+.burger__close {
+  display: none;
+}
+
+.burger[aria-expanded="true"] .burger__open {
+  display: none;
+}
+
+.burger[aria-expanded="true"] .burger__close {
+  display: block;
+}
+
+/* Buttons ---------------------------------------------------------------
+   Одна механика на все кнопки: подъём на 2px, бирюзовая тень под цвет
+   логотипа и блик, который пробегает по кнопке при наведении. */
+
+.btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 50px;
+  padding: 0.8rem 1.6rem;
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s ease,
+    background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+/* Блик. Лежит поверх фона, полупрозрачный — текст читается насквозь. */
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 25%, rgba(255, 255, 255, 0.4) 47%, transparent 68%);
+  transform: translateX(-130%);
+  transition: transform 0.7s var(--ease-out);
+}
+
+.btn:hover::after,
+.btn:focus-visible::after {
+  transform: translateX(130%);
+}
+
+.btn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transition: transform 0.25s var(--ease-out);
+}
+
+.btn:hover .btn__arrow {
+  transform: translateX(4px);
+}
+
+.btn--lg {
+  min-height: 56px;
+  padding: 0.95rem 1.9rem;
+  font-size: 1rem;
+}
+
+.btn--solid {
+  background-color: var(--teal);
+  background-image: linear-gradient(135deg, var(--teal-bright) 0%, var(--teal) 52%, var(--teal-dark) 100%);
+  color: var(--paper);
+  box-shadow: var(--shadow-teal), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.btn--solid:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-teal-lift), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.btn--solid:active {
+  transform: translateY(0) scale(0.985);
+  box-shadow: 0 6px 14px -8px rgba(18, 128, 153, 0.6);
+}
+
+.btn--line {
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--teal-dark);
+  border-color: rgba(18, 128, 153, 0.4);
+  backdrop-filter: blur(6px);
+}
+
+.btn--line:hover {
+  transform: translateY(-2px);
+  color: var(--paper);
+  border-color: transparent;
+  background-image: linear-gradient(135deg, var(--teal-bright) 0%, var(--teal) 55%, var(--teal-dark) 100%);
+  box-shadow: var(--shadow-teal-lift);
+}
+
+.btn--line:active {
+  transform: translateY(0) scale(0.985);
+}
+
+.btn--onDeep {
+  background: var(--paper);
+  color: var(--teal-deep);
+}
+
+.btn--onDeep:hover {
+  transform: translateY(-2px);
+  background-image: linear-gradient(135deg, var(--teal-bright), var(--teal-dark));
+  color: var(--paper);
+  box-shadow: 0 16px 30px -14px rgba(0, 0, 0, 0.6);
+}
+
+/* Hero ------------------------------------------------------------------ */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(2.75rem, 6vw, 5rem) clamp(3.5rem, 8vw, 6rem);
+  background:
+    radial-gradient(900px 520px at 86% -12%, rgba(23, 162, 192, 0.2), transparent 62%),
+    radial-gradient(720px 480px at 2% 6%, rgba(18, 128, 153, 0.13), transparent 64%),
+    linear-gradient(180deg, #f6fbfc 0%, #ffffff 68%);
+}
+
+/* Тонкая сетка, растворяющаяся к краям: фон перестаёт быть пустым,
+   но не спорит с текстом. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(18, 128, 153, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(18, 128, 153, 0.07) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(75% 65% at 50% 35%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(75% 65% at 50% 35%, #000 0%, transparent 78%);
+}
+
+.hero__aura {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero__aura::before,
+.hero__aura::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+}
+
+.hero__aura::before {
+  width: min(42vw, 420px);
+  aspect-ratio: 1;
+  top: -14%;
+  right: -6%;
+  background: radial-gradient(circle, rgba(23, 162, 192, 0.36), transparent 70%);
+  animation: drift 16s ease-in-out infinite alternate;
+}
+
+.hero__aura::after {
+  width: min(36vw, 340px);
+  aspect-ratio: 1;
+  bottom: -18%;
+  left: -8%;
+  background: radial-gradient(circle, rgba(111, 201, 221, 0.34), transparent 70%);
+  animation: drift 21s -6s ease-in-out infinite alternate-reverse;
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4rem);
+  align-items: center;
+}
+
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 1.25rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(18, 128, 153, 0.26);
+  box-shadow: 0 10px 22px -16px rgba(6, 38, 46, 0.8);
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--teal-dark);
+}
+
+.hero__pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--teal-bright);
+  animation: pulse 2.4s ease-out infinite;
+}
+
+.hero__line {
+  font-family: var(--font-book);
+  font-weight: 600;
+  font-size: clamp(2.25rem, 1.2rem + 4.4vw, 4.15rem);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0;
+  max-width: 15ch;
+  text-wrap: balance;
+}
+
+/* Бирюзовая подсветка выезжает под словом при загрузке страницы. */
+.hero__mark {
+  position: relative;
+  isolation: isolate;
+  white-space: nowrap;
+}
+
+.hero__mark::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -0.06em;
+  right: -0.06em;
+  bottom: 0.04em;
+  height: 0.34em;
+  border-radius: 0.18em;
+  background: linear-gradient(90deg, rgba(23, 162, 192, 0.42), rgba(111, 201, 221, 0.22));
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: swipe 0.85s 0.75s var(--ease-out) forwards;
+}
+
+.hero__accent {
+  background-image: linear-gradient(120deg, var(--teal-bright) 0%, var(--teal-dark) 78%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero__sub {
+  margin: 1.25rem 0 0;
+  max-width: 50ch;
+  color: var(--text-soft);
+  font-size: clamp(1.02rem, 0.98rem + 0.3vw, 1.15rem);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 1.9rem;
+}
+
+.hero__stats {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.1rem clamp(1rem, 3vw, 2.25rem);
+  margin: clamp(2.25rem, 4vw, 3rem) 0 0;
+  padding: 1.35rem 0 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.hero__stat {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.hero__stat strong {
+  font-family: var(--font-ui);
+  font-weight: 800;
+  font-size: clamp(1.05rem, 0.92rem + 0.45vw, 1.3rem);
+  color: var(--teal-dark);
+  letter-spacing: -0.01em;
+}
+
+.hero__stat span {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  line-height: 1.35;
+  color: var(--text-soft);
+}
+
+/* Витрина: три книги веером — сразу видно, чем торгует магазин. */
+.hero__art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding-block: 1rem;
+}
+
+.hero__stack {
+  position: relative;
+  width: min(100%, 440px);
+  aspect-ratio: 1 / 0.95;
+}
+
+.tome {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: clamp(132px, 16vw, 178px);
+  aspect-ratio: 5 / 7;
+}
+
+.tome__face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  padding: 1rem 0.95rem 1.1rem 1.25rem;
+  overflow: hidden;
+  border-radius: 4px 12px 12px 4px;
+  box-shadow: 0 28px 48px -26px rgba(6, 38, 46, 0.85), 0 2px 8px rgba(6, 38, 46, 0.12);
+  animation: bob 7s ease-in-out infinite alternate;
+}
+
+/* Корешок книги. */
+.tome__face::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 12px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0));
+}
+
+.tome__kind {
+  font-family: var(--font-ui);
+  font-weight: 800;
+  font-size: 0.92rem;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+
+.tome__hint {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  line-height: 1.3;
+  opacity: 0.78;
+}
+
+.tome__logo {
+  width: 72%;
+  height: auto;
+  margin-bottom: auto;
+}
+
+.tome--back {
+  transform: translate(-58%, -9%) rotate(-12deg);
+}
+
+.tome--back .tome__face {
+  background: linear-gradient(150deg, var(--teal-dark), var(--teal-deep));
+  color: #cfe7ec;
+  animation-delay: -0.6s;
+}
+
+.tome--mid {
+  z-index: 1;
+  transform: translate(0, 7%) rotate(-3deg);
+}
+
+.tome--mid .tome__face {
+  background: linear-gradient(150deg, var(--teal-glow), var(--teal) 55%, var(--teal-dark));
+  color: #f0fbfd;
+  animation-delay: -2.6s;
+}
+
+.tome--front {
+  z-index: 2;
+  transform: translate(58%, -5%) rotate(9deg);
+}
+
+.tome--front .tome__face {
+  background: linear-gradient(160deg, #ffffff, #e9f5f8);
+  border: 1px solid rgba(18, 128, 153, 0.2);
+  color: var(--teal-dark);
+  padding-top: 1.1rem;
+  animation-delay: -4.4s;
+}
+
+/* На задних книгах виден только левый край — подзаголовок там всё равно
+   ушёл бы под соседнюю обложку, поэтому оставляем одну категорию. */
+.tome--back .tome__hint,
+.tome--mid .tome__hint {
+  display: none;
+}
+
+.chip {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(18, 128, 153, 0.22);
+  box-shadow: 0 16px 30px -20px rgba(6, 38, 46, 0.9);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--teal-dark);
+  white-space: nowrap;
+}
+
+.chip svg {
+  width: 13px;
+  height: 13px;
+  color: var(--teal-bright);
+}
+
+.chip--a {
+  top: 2%;
+  left: 0;
+  animation: bob 6.2s ease-in-out infinite alternate;
+}
+
+.chip--b {
+  bottom: 4%;
+  right: 0;
+  animation: bob 7.4s -3.2s ease-in-out infinite alternate;
+}
+
+/* Появление первого экрана, по одному блоку. */
+.hero__badge,
+.hero__line,
+.hero__sub,
+.hero__actions,
+.hero__stats,
+.hero__art {
+  animation: rise 0.75s var(--ease-out) both;
+}
+
+.hero__badge { animation-delay: 0.05s; }
+.hero__line { animation-delay: 0.14s; }
+.hero__sub { animation-delay: 0.26s; }
+.hero__actions { animation-delay: 0.38s; }
+.hero__stats { animation-delay: 0.5s; }
+.hero__art { animation-delay: 0.22s; animation-duration: 0.9s; }
+
+/* Reminder ---------------------------------------------------------------- */
+
+.reminder {
+  padding-block: clamp(1.75rem, 4vw, 2.5rem);
+  background: var(--teal-wash);
+  border-block: 1px solid var(--hairline);
+}
+
+.reminder__quote {
+  margin: 0 auto;
+  max-width: 48ch;
+  text-align: center;
+  font-family: var(--font-book);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem);
+  line-height: 1.55;
+  color: var(--teal-dark);
+}
+
+.reminder__quote::before {
+  content: "\201C";
+}
+
+.reminder__quote::after {
+  content: "\201D";
+}
+
+/* Ticker ----------------------------------------------------------------- */
+
+.ticker {
+  overflow: hidden;
+  background: linear-gradient(90deg, var(--teal-deep) 0%, var(--teal-dark) 45%, var(--teal) 100%);
+  color: #dff1f5;
+  border-block: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ticker__track {
+  display: flex;
+  width: max-content;
+  animation: slide 34s linear infinite;
+}
+
+.ticker:hover .ticker__track {
+  animation-play-state: paused;
+}
+
+.ticker__group {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  padding-right: 2.5rem;
+  padding-block: 0.9rem;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ticker__sep {
+  font-size: 0.6rem;
+  color: var(--teal-light);
+  opacity: 0.7;
+}
+
+/* About ------------------------------------------------------------------ */
+
+.about__lede {
+  max-width: var(--measure);
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem);
+  line-height: 1.6;
+  color: var(--text);
+  margin: 0 0 1.5rem;
+}
+
+.about__body {
+  max-width: var(--measure);
+  color: var(--text-soft);
+  margin: 0 0 3rem;
+}
+
+.pledges {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  margin: 0;
+}
+
+.pledge {
+  border-top: 2px solid var(--teal);
+  padding-top: 1rem;
+}
+
+.pledge__name {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--ink);
+  margin: 0 0 0.4rem;
+}
+
+.pledge__note {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 0.97rem;
+}
+
+/* Catalog: books on a shelf, not product cards --------------------------- */
+
+.catalog__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.catalog__count {
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  color: var(--text-soft);
+}
+
+.filters {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  padding-block: 0.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--hairline);
+}
+
+/* Категории и издательства стоят двумя строками подряд: линию и отступ
+   несёт только нижняя, иначе между ними появляется вторая черта. */
+.filters--tight {
+  padding-bottom: 0.65rem;
+  margin-bottom: 0;
+  border-bottom: 0;
+}
+
+.filter {
+  flex-shrink: 0;
+  min-height: 44px;
+  padding: 0.55rem 1.15rem;
+  font-family: var(--font-ui);
+  font-size: 0.92rem;
+  font-weight: 600;
+  white-space: nowrap;
+  background: transparent;
+  color: var(--text-soft);
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.22s var(--ease-out), background-color 0.22s ease,
+    color 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.filter:hover {
+  transform: translateY(-2px);
+  color: var(--teal-dark);
+  background: var(--teal-wash);
+  border-color: rgba(18, 128, 153, 0.45);
+}
+
+.filter:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.filter[aria-pressed="true"] {
+  background-image: linear-gradient(135deg, var(--teal-bright), var(--teal) 55%, var(--teal-dark));
+  color: var(--paper);
+  border-color: transparent;
+  box-shadow: var(--shadow-teal);
+}
+
+.shelf {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3rem) clamp(1.25rem, 3vw, 2.25rem);
+  grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.book {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.book__cover {
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  object-fit: cover;
+  background: var(--paper-cool);
+  border-bottom: 2px solid var(--teal);
+}
+
+.book__kind {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--teal-dark);
+  margin: 0.9rem 0 0.35rem;
+}
+
+.book__title {
+  font-family: var(--font-book);
+  font-weight: 600;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  color: var(--ink);
+  margin: 0 0 0.4rem;
+}
+
+/* Заголовок книги — кнопка, а её невидимый слой растянут на всю карточку:
+   кликается вся книга целиком, но в табуляции остаётся одна остановка. */
+.book__open {
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: color 0.22s ease;
+}
+
+.book__open::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.book:hover .book__open {
+  color: var(--teal);
+}
+
+.book__open:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+}
+
+.book__note {
+  margin: 0 0 0.9rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text-soft);
+}
+
+/* Кнопки корзины лежат поверх растянутого слоя, иначе клик по ним
+   открывал бы карточку книги вместо добавления в корзину. */
+.book__foot {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.book__price {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+
+.shelf__empty {
+  grid-column: 1 / -1;
+  color: var(--text-soft);
+  margin: 0;
+}
+
+/* Карточка книги --------------------------------------------------------- */
+
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 2.5rem);
+}
+
+.sheet__veil {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 38, 46, 0.55);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sheet[data-open="true"] .sheet__veil {
+  opacity: 1;
+}
+
+.sheet__panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 215px) minmax(0, 1fr);
+  gap: clamp(1.25rem, 3vw, 2rem);
+  width: min(720px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  padding: clamp(1.4rem, 4vw, 2.1rem);
+  background: var(--paper);
+  border-radius: var(--radius);
+  box-shadow: 0 30px 70px -30px rgba(6, 38, 46, 0.85);
+  opacity: 0;
+  transform: translateY(14px) scale(0.98);
+  transition: opacity 0.3s ease, transform 0.34s var(--ease-out);
+}
+
+.sheet[data-open="true"] .sheet__panel {
+  opacity: 1;
+  transform: none;
+}
+
+.sheet__close {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  color: var(--teal-dark);
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.sheet__close:hover {
+  background: var(--teal-wash);
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.sheet__close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.sheet__cover {
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  object-fit: cover;
+  background: var(--paper-cool);
+  border-bottom: 2px solid var(--teal);
+}
+
+.sheet__info {
+  min-width: 0;
+}
+
+.sheet__kind {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--teal-dark);
+  margin: 0 0 0.4rem;
+}
+
+.sheet__title {
+  font-family: var(--font-book);
+  font-weight: 600;
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  line-height: 1.25;
+  color: var(--ink);
+  margin: 0 0 0.35rem;
+  padding-right: 2.5rem;
+}
+
+.sheet__author {
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  margin: 0 0 1rem;
+}
+
+.sheet__about {
+  font-size: 0.97rem;
+  line-height: 1.6;
+  color: var(--text);
+  margin: 0 0 1.4rem;
+}
+
+.specs {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0 0 1.5rem;
+}
+
+.spec {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.spec__label {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  color: var(--text-soft);
+}
+
+.spec__value {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: right;
+}
+
+.sheet__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.sheet__price {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: var(--ink);
+}
+
+/* Contacts --------------------------------------------------------------- */
+
+.contacts__grid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+.contacts__list {
+  display: grid;
+  gap: 1.6rem;
+  margin: 0 0 2rem;
+}
+
+.contacts__row {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.contacts__label {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--teal-light);
+  margin: 0;
+}
+
+.contacts__value {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--paper);
+  text-decoration: none;
+}
+
+a.contacts__value:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.social {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 46px;
+  padding: 0.6rem 1.1rem;
+  font-family: var(--font-ui);
+  font-size: 0.93rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #dce9eb;
+  border: 1px solid rgba(220, 233, 235, 0.32);
+  border-radius: var(--radius);
+  transition: transform 0.25s var(--ease-out), background-color 0.25s ease,
+    color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.social:hover {
+  transform: translateY(-2px);
+  background-image: linear-gradient(135deg, var(--teal-bright), var(--teal) 60%, var(--teal-dark));
+  color: var(--paper);
+  border-color: transparent;
+  box-shadow: 0 16px 28px -16px rgba(23, 162, 192, 0.9);
+}
+
+.social:active {
+  transform: translateY(0) scale(0.985);
+}
+
+.social svg {
+  width: 17px;
+  height: 17px;
+}
+
+.map {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 0;
+  border-radius: var(--radius);
+  /* Светлая подложка: если встраивание карты не загрузится, блок не превратится
+     в пустоту на тёмном фоне. */
+  background: var(--paper-cool);
+}
+
+.map-link {
+  display: inline-block;
+  margin-top: 0.85rem;
+  font-family: var(--font-ui);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #dce9eb;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.map-link:hover {
+  color: var(--teal-light);
+}
+
+/* Footer ----------------------------------------------------------------- */
+
+.colophon {
+  background: var(--teal-deep);
+  color: rgba(220, 233, 235, 0.72);
+  border-top: 1px solid rgba(220, 233, 235, 0.16);
+  padding-block: 2rem;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+}
+
+.colophon__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.colophon a {
+  color: inherit;
+}
+
+/* Cart: кнопка в шапке, счётчик и шаговый переключатель --------------------
+   Состав корзины хранится в localStorage, поэтому переживает перезагрузку. */
+
+.cart-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  margin-left: 0.85rem;
+  background: none;
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  color: var(--teal-dark);
+  cursor: pointer;
+  transition: transform 0.25s var(--ease-out), border-color 0.2s ease,
+    background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cart-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--teal);
+  background: var(--teal-wash);
+  color: var(--teal);
+  box-shadow: 0 12px 22px -16px rgba(18, 128, 153, 0.95);
+}
+
+.cart-btn:active {
+  transform: translateY(0) scale(0.96);
+}
+
+.cart-btn svg {
+  width: 21px;
+  height: 21px;
+}
+
+.cart-btn__count {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  min-width: 21px;
+  height: 21px;
+  padding: 0 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background-image: linear-gradient(135deg, var(--teal-bright), var(--teal-dark));
+  color: var(--paper);
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 5px 12px -5px rgba(18, 128, 153, 0.95);
+  transition: transform 0.22s var(--ease-out), opacity 0.22s ease;
+}
+
+.cart-btn__count[data-empty="true"] {
+  opacity: 0;
+  transform: scale(0.4);
+}
+
+/* Короткий «толчок» кнопки, когда книга улетела в корзину. */
+.cart-btn.is-bumped {
+  animation: bump 0.45s var(--ease-out);
+}
+
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 3px;
+  background: var(--paper);
+  border: 1px solid rgba(18, 128, 153, 0.35);
+  border-radius: 999px;
+}
+
+.stepper__btn {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: var(--teal-wash);
+  border: 0;
+  border-radius: 50%;
+  color: var(--teal-dark);
+  font-family: var(--font-ui);
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.18s var(--ease-out), background-color 0.18s ease, color 0.18s ease;
+}
+
+.stepper__btn:hover {
+  background-image: linear-gradient(135deg, var(--teal-bright), var(--teal-dark));
+  color: var(--paper);
+}
+
+.stepper__btn:active {
+  transform: scale(0.9);
+}
+
+.stepper__value {
+  min-width: 26px;
+  text-align: center;
+  font-family: var(--font-ui);
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.book__cart {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.book__add {
+  min-height: 42px;
+  padding: 0.55rem 1rem;
+  font-size: 0.88rem;
+  border-radius: 10px;
+}
+
+/* Cart drawer ------------------------------------------------------------ */
+
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+}
+
+.drawer__veil {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 38, 46, 0.55);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.drawer[data-open="true"] .drawer__veil {
+  opacity: 1;
+}
+
+.drawer__panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(420px, 100%);
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  box-shadow: -26px 0 64px -34px rgba(6, 38, 46, 0.9);
+  transform: translateX(100%);
+  transition: transform 0.34s var(--ease-out);
+}
+
+.drawer[data-open="true"] .drawer__panel {
+  transform: none;
+}
+
+.drawer__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.15rem clamp(1rem, 4vw, 1.5rem);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.drawer__title {
+  margin: 0;
+  font-family: var(--font-book);
+  font-weight: 600;
+  font-size: 1.45rem;
+  color: var(--ink);
+}
+
+.drawer__close {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  color: var(--teal-dark);
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.drawer__close:hover {
+  background: var(--teal-wash);
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.drawer__close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.drawer__form {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Список книг и форма доставки скроллятся вместе; итог и кнопка
+   заказа остаются внизу панели неподвижно. */
+.drawer__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.drawer__list {
+  list-style: none;
+  margin: 0;
+  padding: 0 clamp(1rem, 4vw, 1.5rem);
+}
+
+.cart-row {
+  display: grid;
+  grid-template-columns: 54px 1fr auto;
+  gap: 0.9rem;
+  align-items: start;
+  padding: 1.05rem 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.cart-row:last-child {
+  border-bottom: 0;
+}
+
+.cart-row__cover {
+  width: 54px;
+  aspect-ratio: 5 / 7;
+  object-fit: cover;
+  background: var(--paper-cool);
+  border-bottom: 2px solid var(--teal);
+}
+
+.cart-row__title {
+  margin: 0 0 0.15rem;
+  font-family: var(--font-book);
+  font-weight: 600;
+  font-size: 0.98rem;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.cart-row__price {
+  margin: 0 0 0.65rem;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--text-soft);
+}
+
+.cart-row__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cart-row__sum {
+  font-family: var(--font-ui);
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--teal-dark);
+}
+
+.cart-row__remove {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.cart-row__remove:hover {
+  background: var(--paper-cool);
+  color: #b03636;
+}
+
+.cart-row__remove svg {
+  width: 16px;
+  height: 16px;
+}
+
+.cart-empty {
+  display: grid;
+  justify-items: start;
+  gap: 1.1rem;
+  padding: 2.5rem 0;
+}
+
+.cart-empty__text {
+  margin: 0;
+  max-width: 34ch;
+  color: var(--text-soft);
+}
+
+/* Форма доставки внутри корзины ------------------------------------------ */
+
+.drawer__checkout {
+  padding: 0.25rem clamp(1rem, 4vw, 1.5rem) 1.5rem;
+  margin-top: 0.75rem;
+  border-top: 1px solid var(--hairline);
+  display: grid;
+  gap: 1.1rem;
+}
+
+.drawer__subtitle {
+  margin: 1.15rem 0 0;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.field__label {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  padding: 0;
+}
+
+.field__input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0.65rem 0.85rem;
+  font-family: var(--font-ui);
+  /* 16px и крупнее — iOS Safari иначе увеличивает страницу при фокусе. */
+  font-size: 16px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field__input::placeholder {
+  color: #9aabad;
+}
+
+.field__input:focus-visible {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(18, 128, 153, 0.16);
+}
+
+.field__input--area {
+  min-height: 64px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Подсветка незаполненного обязательного поля — только после попытки
+   отправить заказ, не сразу при открытии формы. */
+.drawer__form.was-submitted .field__input:invalid {
+  border-color: #c04b4b;
+  box-shadow: 0 0 0 3px rgba(192, 75, 75, 0.14);
+}
+
+.field-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.radio-set {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.radio {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.95rem;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.radio input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Класс is-checked ставит и снимает JS при каждом выборе — так подсветка
+   работает одинаково во всех браузерах, без опоры на :has(). */
+.radio.is-checked {
+  color: var(--paper);
+  border-color: transparent;
+  background-image: linear-gradient(135deg, var(--teal-bright), var(--teal) 55%, var(--teal-dark));
+}
+
+.radio input:focus-visible {
+  outline: none;
+}
+
+.radio:focus-within {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+/* Группа радиокнопок подсвечивается целиком, если ни одна не выбрана
+   и покупатель уже пытался отправить заказ. */
+.radio-set.is-invalid {
+  padding: 0.4rem;
+  border-radius: 14px;
+  box-shadow: 0 0 0 1.5px #c04b4b;
+}
+
+.drawer__foot {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1.15rem clamp(1rem, 4vw, 1.5rem) calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  background: var(--paper-cool);
+  border-top: 1px solid var(--hairline);
+}
+
+.drawer__total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--font-ui);
+}
+
+.drawer__total span {
+  font-size: 0.95rem;
+  color: var(--text-soft);
+}
+
+.drawer__total strong {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.drawer__order {
+  width: 100%;
+}
+
+.drawer__note {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--text-soft);
+}
+
+.drawer__clear {
+  justify-self: start;
+  padding: 0.25rem 0;
+  background: none;
+  border: 0;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.drawer__clear:hover {
+  color: #b03636;
+}
+
+/* Keyframes -------------------------------------------------------------- */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes swipe {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(23, 162, 192, 0.65);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(23, 162, 192, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(23, 162, 192, 0);
+  }
+}
+
+@keyframes bob {
+  from {
+    transform: translateY(6px);
+  }
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-4%, 6%, 0) scale(1.12);
+  }
+}
+
+@keyframes bump {
+  0% {
+    transform: none;
+  }
+  35% {
+    transform: translateY(-3px) scale(1.09);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes slide {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Responsive ------------------------------------------------------------- */
+
+@media (min-width: 960px) {
+  .hero__inner {
+    grid-template-columns: 1.02fr 0.98fr;
+  }
+}
+
+@media (min-width: 900px) {
+  .contacts__grid {
+    grid-template-columns: 0.85fr 1.15fr;
+  }
+}
+
+/* На планшете и телефоне витрина уезжает под текст и становится компактнее. */
+@media (max-width: 959px) {
+  .hero__art {
+    width: 100%;
+  }
+
+  .hero__stack {
+    width: min(100%, 380px);
+    margin-inline: auto;
+  }
+}
+
+/* На телефоне — две колонки, как на полке: иначе каталог растягивается
+   в очень длинную ленту из одной книги в ряд. */
+/* На узком экране обложка уезжает над текстом и ужимается, иначе на
+   описание и характеристики остаётся полоска в несколько слов. */
+@media (max-width: 620px) {
+  .sheet__panel {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+  }
+
+  .sheet__cover {
+    width: min(150px, 40%);
+  }
+}
+
+@media (max-width: 560px) {
+  .shelf {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem 1rem;
+  }
+
+  .book__note {
+    display: none;
+  }
+
+  .book__foot {
+    gap: 0.5rem;
+  }
+
+  .book__cart {
+    width: 100%;
+  }
+
+  .book__add {
+    width: 100%;
+  }
+
+  /* Только в карточке каталога: в корзине степпер остаётся компактным,
+     чтобы сумма строки помещалась рядом с ним. */
+  .book__cart .stepper {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .hero__actions .btn {
+    width: 100%;
+  }
+
+  .hero__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .chip {
+    font-size: 0.72rem;
+    padding: 0.42rem 0.7rem;
+  }
+
+  /* Обложки на телефоне не уменьшаются дальше, поэтому разводим их шире —
+     иначе соседняя книга закрывает название категории. */
+  .tome--back {
+    transform: translate(-66%, -9%) rotate(-12deg);
+  }
+
+  .tome--front {
+    transform: translate(66%, -5%) rotate(9deg);
+  }
+
+  .tome__kind {
+    font-size: 0.82rem;
+  }
+
+  .tome__hint {
+    font-size: 0.68rem;
+  }
+
+  .hero__badge {
+    font-size: 0.78rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .masthead__tagline,
+  .masthead__divider {
+    display: none;
+  }
+
+  .burger {
+    display: inline-flex;
+    order: 2;
+    margin-left: 0.5rem;
+  }
+
+  /* Корзина всегда на виду — она не прячется в бургер-меню. */
+  .cart-btn {
+    order: 1;
+    margin-left: auto;
+  }
+
+  .masthead__nav {
+    position: absolute;
+    inset: 100% 0 auto;
+    margin: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--paper);
+    border-bottom: 1px solid var(--hairline);
+    padding: 0.5rem var(--gutter) 1.25rem;
+    display: none;
+  }
+
+  .masthead__nav[data-open="true"] {
+    display: flex;
+  }
+
+  .masthead__link {
+    padding-block: 0.85rem;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .masthead__nav .btn {
+    margin-top: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hero__aura::before,
+  .hero__aura::after,
+  .hero__pulse,
+  .tome__face,
+  .chip--a,
+  .chip--b,
+  .ticker__track {
+    animation: none;
+  }
+
+  .hero__badge,
+  .hero__line,
+  .hero__sub,
+  .hero__actions,
+  .hero__stats,
+  .hero__art {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero__mark::before {
+    animation: none;
+    transform: scaleX(1);
+  }
+
+  .btn:hover,
+  .btn--line:hover,
+  .social:hover,
+  .filter:hover,
+  .cart-btn:hover {
+    transform: none;
+  }
+
+  .cart-btn.is-bumped {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
